@@ -5,7 +5,7 @@ const createUser = async (req, res) => {
   const { name, username, email, password } = req.body;
 
   if (!name || !username || !password || !email) {
-    res.status(400).send({ message: "Favor preencher todos os campos" });
+    return res.status(400).send({ message: "Favor preencher todos os campos" });
   }
 
   const user = await userService.createService(req.body);
@@ -53,4 +53,27 @@ const findUser = async (req, res) => {
   res.status(200).json(user);
 };
 
-module.exports = { createUser, findAllUsers, findUser };
+const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { name, username, email } = req.body;
+
+  if (!name && !username && !email) {
+    return res.status(400).send({ message: "Nenhum campo foi alterado" });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).send({ message: "id inválido" });
+  }
+
+  const user = await userService.findUserService(id);
+
+  if (!user) {
+    return res.status(400).send({ message: "Usuário não encontrado" });
+  }
+
+  await userService.updateUserService(id, name, username, email);
+
+  res.status(200).send({ message: "Usuário atualizado com sucesso" });
+};
+
+module.exports = { createUser, findAllUsers, findUser, updateUser };
