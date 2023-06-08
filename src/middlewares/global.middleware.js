@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const userService = require("../services/user.service");
+import mongoose from "mongoose";
+import userService from "../services/user.service.js";
 
-const idIsValid = (req, res, next) => {
+export const validatingId = (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -19,7 +19,7 @@ const idIsValid = (req, res, next) => {
   }
 };
 
-const userIsValid = async (req, res, next) => {
+export const validatingUser = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -36,9 +36,4 @@ const userIsValid = async (req, res, next) => {
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
-};
-
-module.exports = {
-  idIsValid,
-  userIsValid,
 };

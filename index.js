@@ -1,9 +1,9 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import connectDatabase from "./src/database/db.js";
+import useRoute from "./src/routes/user.route.js";
 const app = express();
-const connectDatabase = require("./src/database/db");
-const useRoute = require("./src/routes/user.route");
 dotenv.config();
 
 const port = 3000;
