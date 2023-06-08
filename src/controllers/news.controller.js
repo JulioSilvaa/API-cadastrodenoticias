@@ -15,7 +15,7 @@ const createNews = async (req, res) => {
       title,
       text,
       banner,
-      user: { _id: "6480d341ea7805aa991a1839" },
+      user: req.userId,
     });
 
     res.send(201);
