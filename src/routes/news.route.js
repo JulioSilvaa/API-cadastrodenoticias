@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createNews,
+  deleteNewsById,
   findAllNews,
   findAllNewsByUser,
   mainNews,
@@ -19,5 +20,6 @@ router.get("/search", searchNewsByTitle);
 router.get("/byUser", authMiddleware, findAllNewsByUser);
 router.get("/:id", authMiddleware, searchNewsById);
 router.patch("/:id", authMiddleware, updateNews);
+router.delete("/:id", authMiddleware, deleteNewsById);
 
 export default router;

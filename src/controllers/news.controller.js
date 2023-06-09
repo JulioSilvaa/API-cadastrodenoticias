@@ -1,6 +1,7 @@
 import {
   countNews,
   createNewsService,
+  deleteNewsByIdService,
   findAllNewsService,
   findMainNewsService,
   findNewsByIdService,
@@ -216,6 +217,32 @@ export const updateNews = async (req, res) => {
     await updateNewsService(id, title, text, banner);
 
     return res.send({ message: "Post atualizado com sucesso!" });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+export const deleteNewsById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const news = await findNewsByIdService(id);
+
+    if (!news) {
+      return res.status(400).send({
+        message: "Noticia não encontrada",
+      });
+    }
+
+    if (String(news.user.id) !== req.userId) {
+      return res.status(400).send({
+        message: "Você não possui permissão para apagar esse post",
+      });
+    }
+
+    await deleteNewsByIdService(id);
+
+    return res.send({ message: "Post excluído com sucesso!" });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }

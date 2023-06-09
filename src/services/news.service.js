@@ -28,3 +28,6 @@ export const updateNewsService = (id, title, text, banner) =>
     { title, text, banner },
     { rawResult: true }
   );
+
+export const deleteNewsByIdService = (id) =>
+  News.findOndeAndDelete({ _id: id });
