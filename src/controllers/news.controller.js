@@ -147,6 +147,13 @@ export const searchNewsById = async (req, res) => {
     const { id } = req.params;
 
     const news = await findNewsByIdService(id);
+<<<<<<< HEAD
+=======
+    console.log(
+      "🚀 ~ file: news.controller.js:150 ~ searchNewsById ~ news:",
+      news
+    );
+>>>>>>> bbeaa677bf3646ac12e41e8d3176d4f9dba7dcea
 
     if (!news) {
       return res
@@ -167,6 +174,7 @@ export const searchNewsById = async (req, res) => {
         createdAt: news.createdAt,
       },
     });
+<<<<<<< HEAD
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
@@ -190,6 +198,8 @@ export const findAllNewsByUser = async (req, res) => {
         createdAt: item.createdAt,
       })),
     });
+=======
+>>>>>>> bbeaa677bf3646ac12e41e8d3176d4f9dba7dcea
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
