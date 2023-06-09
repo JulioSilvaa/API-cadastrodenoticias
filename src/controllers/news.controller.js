@@ -5,6 +5,7 @@ import {
   findMainNewsService,
   findNewsByIdService,
   findNewsBySearchParamsServices,
+  findNewsByUserService,
 } from "../services/news.service.js";
 
 export const createNews = async (req, res) => {
@@ -146,10 +147,6 @@ export const searchNewsById = async (req, res) => {
     const { id } = req.params;
 
     const news = await findNewsByIdService(id);
-    console.log(
-      "🚀 ~ file: news.controller.js:150 ~ searchNewsById ~ news:",
-      news
-    );
 
     if (!news) {
       return res
@@ -169,6 +166,29 @@ export const searchNewsById = async (req, res) => {
         username: news.user?.username,
         createdAt: news.createdAt,
       },
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+export const findAllNewsByUser = async (req, res) => {
+  try {
+    const id = req.userId;
+    const news = await findNewsByUserService(id);
+
+    res.send({
+      results: news.map((item) => ({
+        id: item.id,
+        title: item.title,
+        text: item.text,
+        banner: item.banner,
+        likes: item.likes,
+        comments: item.comments,
+        name: item.user?.name,
+        username: item.user?.username,
+        createdAt: item.createdAt,
+      })),
     });
   } catch (error) {
     res.status(500).send({ message: error.message });
