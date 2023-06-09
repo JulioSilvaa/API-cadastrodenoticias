@@ -3,6 +3,7 @@ import {
   createNewsService,
   findAllNewsService,
   findMainNewsService,
+  findNewsByIdService,
   findNewsBySearchParamsServices,
 } from "../services/news.service.js";
 
@@ -142,6 +143,33 @@ export const searchNewsByTitle = async (req, res) => {
 
 export const searchNewsById = async (req, res) => {
   try {
+    const { id } = req.params;
+
+    const news = await findNewsByIdService(id);
+    console.log(
+      "🚀 ~ file: news.controller.js:150 ~ searchNewsById ~ news:",
+      news
+    );
+
+    if (!news) {
+      return res
+        .sendStatus(400)
+        .send({ message: "não há noticias com esse ID" });
+    }
+
+    res.send({
+      news: {
+        id: news.id,
+        title: news.title,
+        text: news.text,
+        banner: news.banner,
+        likes: news.likes,
+        comments: news.comments,
+        name: news.user?.name,
+        username: news.user?.username,
+        createdAt: news.createdAt,
+      },
+    });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
