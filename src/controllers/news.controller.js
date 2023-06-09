@@ -6,6 +6,7 @@ import {
   findNewsByIdService,
   findNewsBySearchParamsServices,
   findNewsByUserService,
+  updateNewsService,
 } from "../services/news.service.js";
 
 export const createNews = async (req, res) => {
@@ -190,6 +191,31 @@ export const findAllNewsByUser = async (req, res) => {
         createdAt: item.createdAt,
       })),
     });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+export const updateNews = async (req, res) => {
+  try {
+    const { title, text, banner } = req.body;
+    const { id } = req.params;
+
+    if (!title || !text || !banner) {
+      return res.sendStatus(400).send({ message: "Preencha todos os campos" });
+    }
+
+    const news = await findNewsByIdService(id);
+
+    if (String(news.user.id) !== req.userId) {
+      return res.status(400).send({
+        message: "Você não possui permissão para atualizar esse post",
+      });
+    }
+
+    await updateNewsService(id, title, text, banner);
+
+    return res.send({ message: "Post atualizado com sucesso!" });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }

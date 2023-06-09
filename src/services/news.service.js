@@ -21,3 +21,10 @@ export const findNewsByIdService = (id) => News.findById(id).populate("user");
 
 export const findNewsByUserService = (id) =>
   News.find({ user: id }).sort({ _id: -1 }).populate("user");
+
+export const updateNewsService = (id, title, text, banner) =>
+  News.findByOneAndUpdate(
+    { _id: id },
+    { title, text, banner },
+    { rawResult: true }
+  );
