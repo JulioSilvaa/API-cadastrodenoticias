@@ -37,7 +37,7 @@ const findAllUsers = async (req, res) => {
       return res.status(400).send({ message: "não há usuários cadastrados" });
     }
 
-    res.status(200).json(users.sort((a, b) => b.createdAt - a.createdAt));
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
