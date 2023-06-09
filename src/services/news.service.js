@@ -1,18 +1,18 @@
 import News from "../models/News.js";
 
-const createNewsService = (body) => News.create(body);
+export const createNewsService = (body) => News.create(body);
 
-const findAllNewsService = (limit, offset) =>
+export const findAllNewsService = (limit, offset) =>
   News.find().sort({ _id: -1 }).skip(offset).limit(limit).populate("user");
 
-const countNews = () => News.countDocuments();
+export const countNews = () => News.countDocuments();
 
-const findMainNewsService = () =>
+export const findMainNewsService = () =>
   News.findOne().sort({ _id: -1 }).populate("user");
 
-export {
-  countNews,
-  createNewsService,
-  findAllNewsService,
-  findMainNewsService,
-};
+export const findNewsBySearchParamsServices = (title) =>
+  News.find({
+    title: { $regex: `${title || ""}`, $options: "i" },
+  })
+    .sort({ _id: -1 })
+    .populate("user");

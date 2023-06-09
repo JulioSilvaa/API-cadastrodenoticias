@@ -3,9 +3,10 @@ import {
   createNewsService,
   findAllNewsService,
   findMainNewsService,
+  findNewsBySearchParamsServices,
 } from "../services/news.service.js";
 
-const createNews = async (req, res) => {
+export const createNews = async (req, res) => {
   try {
     const { title, text, banner } = req.body;
 
@@ -26,7 +27,7 @@ const createNews = async (req, res) => {
   }
 };
 
-const findAllNews = async (req, res) => {
+export const findAllNews = async (req, res) => {
   try {
     let { limit, offset } = req.query;
 
@@ -81,7 +82,7 @@ const findAllNews = async (req, res) => {
   }
 };
 
-const mainNews = async (req, res) => {
+export const mainNews = async (req, res) => {
   try {
     const mainNews = await findMainNewsService();
 
@@ -109,4 +110,39 @@ const mainNews = async (req, res) => {
   }
 };
 
-export { createNews, findAllNews, mainNews };
+export const searchNewsByTitle = async (req, res) => {
+  try {
+    const { title } = req.query;
+
+    const news = await findNewsBySearchParamsServices(title);
+
+    if (news.length === 0) {
+      return res
+        .status(400)
+        .send({ message: "Não encontramos noticia com esse titulo " });
+    }
+
+    res.send({
+      results: news.map((item) => ({
+        id: item.id,
+        title: item.title,
+        text: item.text,
+        banner: item.banner,
+        likes: item.likes,
+        comments: item.comments,
+        name: item.user?.name,
+        username: item.user?.username,
+        createdAt: item.createdAt,
+      })),
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+export const searchNewsById = async (req, res) => {
+  try {
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
