@@ -1,7 +1,7 @@
 {
   "name": "apiUsers",
   "version": 2,
-  "publicKey": "true",
+  "public": true,
   "build": {
     "src": "./index.js",
     "use": "@vercel/node"
