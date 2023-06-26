@@ -225,8 +225,9 @@ export const updateNews = async (req, res) => {
 export const deleteNewsById = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log("🚀 ~ file: news.controller.js:228 ~ deleteNewsById ~ id:", id);
 
-    const news = await findNewsByIdService(id);
+    const news = await deleteNewsByIdService(id);
 
     if (!news) {
       return res.status(400).send({

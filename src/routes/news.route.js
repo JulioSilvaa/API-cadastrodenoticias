@@ -17,7 +17,7 @@ router.post("/", authMiddleware, createNews);
 router.get("/", findAllNews);
 router.get("/top", mainNews);
 router.get("/search", searchNewsByTitle);
-router.get("/byUser", authMiddleware, findAllNewsByUser);
+router.get("/byuser", authMiddleware, findAllNewsByUser);
 router.get("/:id", authMiddleware, searchNewsById);
 router.patch("/:id", authMiddleware, updateNews);
 router.delete("/:id", authMiddleware, deleteNewsById);
